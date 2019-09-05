@@ -5,7 +5,9 @@
 #' @export
 impute_drimpute <- function(sce) {
     expr_processed <- DrImpute::preprocessSC(logcounts(sce))
-    logcounts(sce) <- DrImpute::DrImpute(expr_processed)
+    sce <- sce[rownames(expr_processed), colnames(expr_processed)]
+    imputes_counts <- DrImpute::DrImpute(expr_processed)
+    logcounts(sce) <- imputes_counts
 
     sce
 }
